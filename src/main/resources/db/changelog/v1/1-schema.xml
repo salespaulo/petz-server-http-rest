@@ -1,0 +1,99 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="1-create-privilege" author="paulosales">
+		<createTable tableName="privilege">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="VARCHAR(100)">
+				<constraints unique="true" nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2-create-role" author="paulosales">
+		<createTable tableName="role">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="VARCHAR(100)">
+				<constraints unique="true" nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="3-create-role_priv" author="paulosales">
+		<createTable tableName="role_priv">
+			<column name="role_id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_priv_role_id" references="role(id)" />
+			</column>
+			<column name="privilege_id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_role_priv_id" references="privilege(id)" />
+			</column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="4-create-users" author="paulosales">
+		<createTable tableName="users">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="username" type="VARCHAR(100)">
+				<constraints unique="true" nullable="false" />
+			</column>
+			<column name="password" type="VARCHAR(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="refreshToken" type="TEXT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="5-create-usergroup" author="paulosales">
+		<createTable tableName="usergroup">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="VARCHAR(100)">
+				<constraints unique="true" nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="6-create-user_usergrp" author="paulosales">
+		<createTable tableName="user_usergrp">
+			<column name="user_id" type="INT">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_usergrp_user_id" references="user(id)" />
+			</column>
+			<column name="usergrp_id" type="INT">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_user_usergrp_id" references="usergroup(id)" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="7-create-user_role" author="paulosales">
+		<createTable tableName="user_role">
+			<column name="user_id" type="INT">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_role_user_id" references="user(id)" />
+			</column>
+			<column name="role_id" type="INT">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_user_role_id" references="role(id)" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="8-create-usergrp_role" author="paulosales">
+		<createTable tableName="usergrp_role">
+			<column name="usergrp_id" type="INT">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_role_usergrp_id" references="usergroup(id)" />
+			</column>
+			<column name="role_id" type="INT">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_usergrp_role_id" references="role(id)" />
+			</column>
+		</createTable>
+	</changeSet>
+</databaseChangeLog> 
