@@ -7,7 +7,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SpringBootApplication
+@SpringBootApplication(scanBasePackageClasses = PetzServerHttpRestApplication.class)
 public class PetzServerHttpRestApplication {
 
 	public static void main(String[] args) {
