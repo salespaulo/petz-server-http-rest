@@ -36,7 +36,7 @@ public class AuthenticationEndpoint {
 		return authenticationService.login(username, password);
     }
 
-    @Secured("USER_SAVE")
+    @Secured("PROFILE_GET")
 	@RequestMapping(value="/token", method=RequestMethod.POST)
     public @ResponseBody LoginTokenResource refresh(
     		@RequestHeader("refresh-token") final String token) {
