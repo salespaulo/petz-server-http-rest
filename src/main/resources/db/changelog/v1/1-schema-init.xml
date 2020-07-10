@@ -41,14 +41,17 @@
 			<column name="id" type="INT" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
+			<column name="name" type="VARCHAR(100)">
+				<constraints nullable="false" />
+			</column>
 			<column name="username" type="VARCHAR(100)">
 				<constraints unique="true" nullable="false" />
 			</column>
 			<column name="password" type="VARCHAR(100)">
 				<constraints nullable="false" />
 			</column>
-			<column name="refresh_token" type="VARCHAR(255)">
-				<constraints nullable="false" />
+			<column name="refresh_token" type="TEXT">
+				<constraints nullable="true" />
 			</column>
 		</createTable>
 	</changeSet>

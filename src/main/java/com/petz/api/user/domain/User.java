@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -30,12 +31,16 @@ public class User {
 	private Integer id;
 
 	@Column(nullable = false, length = 100)
+	private String name;
+
+	@Column(nullable = false, length = 100)
 	private String username;
 
 	@Column(nullable = false, length = 100)
 	private String password;
 
-	@Column(name = "refresh_token", length=255)
+	@Lob
+	@Column(nullable = true, name = "refresh_token", columnDefinition="TEXT")
 	private String refreshToken;
 
 	// bi-directional many-to-many association to Usergroup

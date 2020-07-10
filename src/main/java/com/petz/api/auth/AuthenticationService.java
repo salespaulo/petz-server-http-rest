@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,8 @@ import com.petz.api.core.exception.JwtTokenInvalidException;
 import com.petz.api.core.exception.UsernamePasswordAuthenticationException;
 import com.petz.api.user.UserService;
 import com.petz.api.user.domain.User;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
@@ -74,5 +77,9 @@ public class AuthenticationService {
     private boolean withPrivileges(final User user) {
 		return ! user.getPrivileges().isEmpty();
 	}
-	
+    
+    public static void main(String[] args) {
+		System.out.println(new BCryptPasswordEncoder().encode("Test"));
+	}
+    
 }

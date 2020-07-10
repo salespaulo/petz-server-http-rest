@@ -14,6 +14,8 @@ import com.petz.api.auth.jwt.RefreshAccessJwtToken;
 import com.petz.api.auth.resource.LoginTokenResource;
 import com.petz.api.core.exception.JwtTokenInvalidException;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationEndpoint {

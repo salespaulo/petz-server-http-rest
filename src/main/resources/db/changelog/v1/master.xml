@@ -4,6 +4,15 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 	<include file="1-schema-init.xml" relativeToChangelogFile="true" />
-	<include file="2-data-init.xml" relativeToChangelogFile="true" />
+	
+	<changeSet id="data.1" author="paulosales" >
+	    <comment>Creating init data.</comment>
+	    <sqlFile path="data.sql" relativeToChangelogFile="true" encoding="UTF-8" />
+	</changeSet>
+    
+	<changeSet id="data.2" author="paulosales" >
+	    <comment>Creating inital relations data.</comment>
+	    <sqlFile path="data-relations.sql" relativeToChangelogFile="true" encoding="UTF-8" />
+	</changeSet>
 
 </databaseChangeLog>

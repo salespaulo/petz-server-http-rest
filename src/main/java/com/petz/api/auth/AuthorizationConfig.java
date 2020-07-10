@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,7 +23,7 @@ public class AuthorizationConfig extends WebSecurityConfigurerAdapter {
 
 	public static final String AUTHORIZATION_HEADER = "X-Authorization";
 
-	public static final String TOKEN_PROTECTED_ENDPOINTS = "/**";
+	public static final String TOKEN_PROTECTED_ENDPOINTS = "/api/**/";
 
 	@Autowired
 	private JwtAuthenticationProvider jwtAuthenticationProvider;
@@ -62,6 +61,7 @@ public class AuthorizationConfig extends WebSecurityConfigurerAdapter {
 		return filter;
 
 	}
+
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) {
 		auth.authenticationProvider(jwtAuthenticationProvider);
@@ -76,5 +76,5 @@ public class AuthorizationConfig extends WebSecurityConfigurerAdapter {
 				.authorizeRequests().antMatchers(TOKEN_PROTECTED_ENDPOINTS).authenticated().and()
 				.addFilterBefore(buildJwtTokenAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
-	
+
 }
