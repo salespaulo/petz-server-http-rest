@@ -2,14 +2,25 @@ package com.petz.api.user;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.petz.api.user.domain.User;
 
 public interface UserService {
 
-	Optional<User> getByUsernameOpt(final String username);
+	Optional<User> criar(User user);
 
-	User getByUsername(final String username);
+	Optional<User> atualizar(User user);
 
-	User save(final User user);
+	Optional<User> excluirPorId(Integer id);
+
+	Optional<User> excluirPorUsername(String username);
+
+	Optional<User> buscarPorId(Integer id);
+
+	Optional<User> buscarPorUsername(String username);
+
+	Page<User> listar(Pageable pageable);
 
 }

@@ -2,14 +2,26 @@ package com.petz.api.cliente;
 
 import java.util.Optional;
 
-import com.petz.api.user.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.petz.api.cliente.domain.Cliente;
 
 public interface ClienteService {
 
-	Optional<User> getByUsernameOpt(final String username);
+	Page<Cliente> listar(Pageable pageable);
 
-	User getByUsername(final String username);
+	Optional<Cliente> buscarPorCpf(String cpf);
 
-	User save(final User user);
+	Optional<Cliente> buscarPorId(Integer id);
+
+	Optional<Cliente> excluirPorCpf(String cpf);
+
+	Optional<Cliente> excluirPorId(Integer id);
+
+	Optional<Cliente> atualizar(Cliente cliente);
+
+	Optional<Cliente> criar(Cliente cliente);
+
 
 }

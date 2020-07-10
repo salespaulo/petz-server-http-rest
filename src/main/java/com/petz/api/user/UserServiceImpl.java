@@ -5,6 +5,9 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import com.petz.api.user.domain.User;
@@ -16,20 +19,50 @@ class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Secured("USER_SAVE")
 	@Override
-	public Optional<User> getByUsernameOpt(final String username) {
+	public Optional<User> criar(final User user) {
+		return Optional.of(userRepository.save(user));
+	}
+
+	@Secured("USER_SAVE")
+	@Override
+	public Optional<User> atualizar(final User user) {
+		return Optional.of(userRepository.save(user));
+	}
+
+	@Secured("USER_DELETE")
+	@Override
+	public Optional<User> excluirPorId(final Integer id) {
+		return userRepository.findById(id)
+					.map(user-> {
+						userRepository.deleteById(id);
+						return user;
+					});
+	}
+
+	@Secured("USER_DELETE")
+	@Override
+	public Optional<User> excluirPorUsername(final String username) {
+		return userRepository.deleteOneByUsername(username);
+	}
+
+	@Secured("USER_GET")
+	@Override
+	public Optional<User> buscarPorId(final Integer id) {
+		return userRepository.findById(id);
+	}
+
+	@Secured("USER_GET")
+	@Override
+	public Optional<User> buscarPorUsername(final String username) {
 		return userRepository.findOneByUsername(username);
 	}
 
+	@Secured("USER_GET")
 	@Override
-	public User getByUsername(final String username) {
-		return this.getByUsernameOpt(username)
-				.orElseThrow(() -> new RuntimeException("Username not found: " + username));
-	}
-
-	@Override
-	public User save(final User user) {
-		return userRepository.saveAndFlush(user);
+	public Page<User> listar(final Pageable pageable) {
+		return userRepository.findAll(pageable);
 	}
 
 }

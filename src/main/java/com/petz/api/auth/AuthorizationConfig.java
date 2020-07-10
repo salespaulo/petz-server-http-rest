@@ -70,10 +70,15 @@ public class AuthorizationConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable() // We don't need CSRF for JWT based authentication
-				.exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint).and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers(LOGIN_PATH_ENDPOINT).permitAll().antMatchers(REFRESH_PATH_ENDPOINT).permitAll().and()
-				.authorizeRequests().antMatchers(TOKEN_PROTECTED_ENDPOINTS).authenticated().and()
+				.exceptionHandling()
+				.authenticationEntryPoint(this.authenticationEntryPoint).and()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.authorizeRequests()
+				.antMatchers(LOGIN_PATH_ENDPOINT).permitAll().antMatchers(REFRESH_PATH_ENDPOINT)
+				.permitAll().and()
+				.authorizeRequests().antMatchers(TOKEN_PROTECTED_ENDPOINTS)
+				.authenticated().and()
 				.addFilterBefore(buildJwtTokenAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 

@@ -2,14 +2,30 @@ package com.petz.api.pet;
 
 import java.util.Optional;
 
-import com.petz.api.user.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.petz.api.pet.domain.Pet;
+import com.petz.api.pet.domain.PetEspecie;
+import com.petz.api.pet.domain.PetGenero;
 
 public interface PetService {
 
-	Optional<User> getByUsernameOpt(final String username);
+	Page<Pet> listarPorNome(String nome, Pageable pageable);
 
-	User getByUsername(final String username);
+	Page<Pet> listarPorEspecie(PetEspecie especie, Pageable pageable);
 
-	User save(final User user);
+	Page<Pet> listarPorGenero(PetGenero genero, Pageable pageable);
+
+	Page<Pet> listar(Pageable pageable);
+
+	Optional<Pet> buscarPorId(Integer id);
+
+	Optional<Pet> excluirPorId(Integer id);
+
+	Optional<Pet> atualizar(Pet cliente);
+
+	Optional<Pet> criar(Pet cliente);
+
 
 }

@@ -12,3 +12,13 @@ $> sudo docker run -d
     -e "DB_PASSWORD=<password>"         \
     -p 8000:8000 petz-server-http-rest
 ```
+
+Login
+POST /auth/login
+Header: username
+Header: password
+
+Auth
+
+Header: X-Authorization
+Token: Bearer {TOKEN}

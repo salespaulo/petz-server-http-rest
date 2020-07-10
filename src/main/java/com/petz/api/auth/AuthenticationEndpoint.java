@@ -12,9 +12,8 @@ import com.petz.api.auth.jwt.JwtSettings;
 import com.petz.api.auth.jwt.RawJwtToken;
 import com.petz.api.auth.jwt.RefreshAccessJwtToken;
 import com.petz.api.auth.resource.LoginTokenResource;
-import com.petz.api.core.exception.JwtTokenInvalidException;
 
-import lombok.extern.slf4j.Slf4j;
+import static com.petz.api.core.exception.Exceptions.supplierJwtTokenInvalid;
 
 @RestController
 @RequestMapping("/auth")
@@ -37,19 +36,22 @@ public class AuthenticationEndpoint {
 		return authenticationService.login(username, password);
     }
 
-    @Secured("ROLE_REFRESH_TOKEN")
+    @Secured("USER_SAVE")
 	@RequestMapping(value="/token", method=RequestMethod.POST)
     public @ResponseBody LoginTokenResource refresh(
     		@RequestHeader("refresh-token") final String token) {
 
-        return authenticationService.tokenRefresh(getRefreshAccessToken(token));
+    	final RefreshAccessJwtToken refreshToken = getRefreshAccessToken(token);
+        return authenticationService.tokenRefresh(refreshToken);
     }
 
 	private RefreshAccessJwtToken getRefreshAccessToken(final String token) {
 		final String signingKey = settings.getTokenSigningKey();
         final RawJwtToken rawToken = new RawJwtToken(token);
-		return RefreshAccessJwtToken.of(rawToken, signingKey)
-        		.orElseThrow(() -> new JwtTokenInvalidException(rawToken));
+
+		return RefreshAccessJwtToken
+				.of(rawToken, signingKey)
+        		.orElseThrow(supplierJwtTokenInvalid(rawToken));
 	}
 
 }

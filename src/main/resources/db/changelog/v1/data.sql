@@ -26,13 +26,29 @@ INSERT INTO role(name) VALUES ('Admin');
 -- Privileges
 INSERT INTO privilege(name) VALUES ('PROFILE_GET');
 
-INSERT INTO privilege(name) VALUES ('PETZ_SAVE');
+INSERT INTO privilege(name) VALUES ('USER_DELETE');
 
-INSERT INTO privilege(name) VALUES ('PETZ_LIST');
+INSERT INTO privilege(name) VALUES ('USER_SAVE');
 
-INSERT INTO privilege(name) VALUES ('PETZ_GET');
+INSERT INTO privilege(name) VALUES ('USER_LIST');
 
-INSERT INTO privilege(name) VALUES ('PETZ_DELETE');
+INSERT INTO privilege(name) VALUES ('USER_GET');
+
+INSERT INTO privilege(name) VALUES ('CLIENTE_DELETE');
+
+INSERT INTO privilege(name) VALUES ('CLIENTE_SAVE');
+
+INSERT INTO privilege(name) VALUES ('CLIENTE_LIST');
+
+INSERT INTO privilege(name) VALUES ('CLIENTE_GET');
+
+INSERT INTO privilege(name) VALUES ('PET_SAVE');
+
+INSERT INTO privilege(name) VALUES ('PET_LIST');
+
+INSERT INTO privilege(name) VALUES ('PET_GET');
+
+INSERT INTO privilege(name) VALUES ('PET_DELETE');
 
 -- Cliente
 INSERT INTO cliente(cpf, logradouro, cep, user_id) 

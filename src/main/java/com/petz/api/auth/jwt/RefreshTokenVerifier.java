@@ -27,7 +27,7 @@ public class RefreshTokenVerifier implements TokenVerifier<RefreshAccessJwtToken
     	final String tokenJti = token.getJti();
     	final String signingKey = settings.getTokenSigningKey();
 
-    	final Optional<User> user = userService.getByUsernameOpt(subject);
+    	final Optional<User> user = userService.buscarPorUsername(subject);
 
     	final boolean isValid = user.map(User::getRefreshToken)
 				.map(RawJwtToken::new)

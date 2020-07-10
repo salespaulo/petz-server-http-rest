@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import org.springframework.security.authentication.BadCredentialsException;
 
+import com.petz.api.auth.jwt.JwtToken;
 import com.petz.api.auth.jwt.RawJwtToken;
 import com.petz.api.user.domain.User;
 
@@ -24,8 +25,16 @@ public final class Exceptions {
 		return ResourceNotFoundException.supplier(name, id);
 	}
 
+	public static Supplier<UsernamePasswordAuthenticationException> supplierUsernamePasswordInvalid() {
+		return () -> new UsernamePasswordAuthenticationException();
+	}
+	
 	public static Supplier<JwtTokenMissingException> supplierJwtTokenMissing() {
 		return () -> new JwtTokenMissingException();
+	}
+
+	public static Supplier<JwtTokenInvalidException> supplierJwtTokenInvalid(final JwtToken refreshToken) {
+		return () -> new JwtTokenInvalidException(refreshToken);
 	}
 
 	public static BadCredentialsException newBadCredentials(final Throwable cause) {
