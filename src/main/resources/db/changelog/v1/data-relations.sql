@@ -98,3 +98,5 @@ INSERT INTO user_role (user_id, role_id)
 INSERT INTO user_role (user_id, role_id)
 	SELECT u.id, r.id FROM users u, role r WHERE u.username = 'mike.operator@ps.org'
 	AND r.id = (SELECT id FROM role WHERE name = 'Admin');
+	
+	

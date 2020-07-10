@@ -33,3 +33,23 @@ INSERT INTO privilege(name) VALUES ('PETZ_LIST');
 INSERT INTO privilege(name) VALUES ('PETZ_GET');
 
 INSERT INTO privilege(name) VALUES ('PETZ_DELETE');
+
+-- Cliente
+INSERT INTO cliente(cpf, logradouro, cep, user_id) 
+	SELECT '669.482.770-98', 'Rua das Flores, 200', '11111-111', u.id FROM users u WHERE u.username = 'john.admin@ps.org';
+	
+INSERT INTO cliente(cpf, logradouro, cep, user_id) 
+	SELECT '340.587.170-09', 'Avenida dos Estados, 1050', '22222-222', u.id FROM users u WHERE u.username = 'ana.guest@ps.org';
+	
+INSERT INTO cliente(cpf, logradouro, cep, user_id) 
+	SELECT '224.678.370-41', 'Rua Bela Cintra, 544', '33333-333', u.id FROM users u WHERE u.username = 'mike.operator@ps.org';
+
+INSERT INTO cliente(cpf, logradouro, cep, user_id) 
+	SELECT '082.584.760-50', 'Estrada da Palestina, 500 - Juquitiba', '44444-444', u.id FROM users u WHERE u.username = 'custom.user@ps.org';
+
+-- Pet
+INSERT INTO pet(nome, especie, genero, cliente_id) 
+	SELECT 'Huxley', 'Cao', 'Macho', c.id FROM cliente c WHERE c.cpf = '669.482.770-98';
+
+INSERT INTO pet(nome, especie, genero, cliente_id) 
+	SELECT 'Zuzi', 'Gato', 'Femea', c.id FROM cliente c WHERE c.cpf = '669.482.770-98';

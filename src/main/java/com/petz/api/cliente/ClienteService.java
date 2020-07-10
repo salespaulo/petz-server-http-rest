@@ -1,10 +1,10 @@
-package com.petz.api.user;
+package com.petz.api.cliente;
 
 import java.util.Optional;
 
 import com.petz.api.user.domain.User;
 
-public interface UserService {
+public interface ClienteService {
 
 	Optional<User> getByUsernameOpt(final String username);
 

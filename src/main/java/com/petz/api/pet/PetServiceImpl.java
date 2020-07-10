@@ -1,4 +1,4 @@
-package com.petz.api.user;
+package com.petz.api.pet;
 
 import java.util.Optional;
 
@@ -11,10 +11,10 @@ import com.petz.api.user.domain.User;
 
 @Service
 @Transactional
-class UserServiceImpl implements UserService {
+class PetServiceImpl implements PetService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private PetRepository userRepository;
 
 	@Override
 	public Optional<User> getByUsernameOpt(final String username) {

@@ -3,6 +3,10 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
+	<!-- Nestas entidades eu gostaria de trabalhar com chaves naturais, pois acredito ser
+	a melhor forma de representar a identidade de um elemento, mas por praticidade p/ realizar o teste
+	escolhi deixar o sequencial ID -->
+
 	<changeSet id="1-create-privilege" author="paulosales">
 		<createTable tableName="privilege">
 			<column name="id" type="INT" autoIncrement="true">
@@ -99,4 +103,48 @@
 			</column>
 		</createTable>
 	</changeSet>
+	
+	<changeSet id="9-create-cliente" author="paulosales">
+		<createTable tableName="cliente">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="cpf" type="VARCHAR(100)">
+				<constraints unique="true" nullable="false" />
+			</column>
+			<column name="logradouro" type="VARCHAR(100)">
+				<constraints nullable="true" />
+			</column>
+			<column name="cep" type="VARCHAR(20)">
+				<constraints nullable="true" />
+			</column>
+			<column name="user_id" type="INT">
+				<constraints nullable="false" foreignKeyName="fk_cliente_user_id" references="users(id)" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="10-create-pet" author="paulosales">
+		<createTable tableName="pet">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="nome" type="VARCHAR(100)">
+				<constraints unique="true" nullable="false" />
+			</column>
+			<column name="especie" type="VARCHAR(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="genero" type="VARCHAR(10)">
+				<constraints nullable="false" />
+			</column>
+			<column name="descricao" type="VARCHAR(100)">
+				<constraints nullable="true" />
+			</column>
+			<column name="cliente_id" type="INT">
+				<constraints nullable="false" foreignKeyName="fk_pet_cliente_id" references="cliente(id)" />
+			</column>
+		</createTable>
+	</changeSet>
+
 </databaseChangeLog> 

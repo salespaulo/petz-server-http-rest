@@ -43,7 +43,7 @@ public class AuthenticationService {
 	}
 	
 	public LoginTokenResource login(String username, String password) {
-		final Optional<User> userOpt = userService.getByEmailOptional(username);
+		final Optional<User> userOpt = userService.getByUsernameOpt(username);
 
 		// set user.authenticate
 		final LoginTokenResource loginToken = userOpt
