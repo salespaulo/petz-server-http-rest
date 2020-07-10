@@ -21,46 +21,41 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
-@Table(name="\"user\"")
+@Table(name = "users")
 public class User {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(unique = true, nullable = false)
+	private Integer id;
 
-	@Column(nullable=false, length=200)
+	@Column(nullable = false, length = 100)
 	private String username;
 
-	@Column(nullable=false, length=100) private String name; @Column(nullable=false, length=255)
+	@Column(nullable = false, length = 100)
 	private String password;
-	
-	@Column(name="refresh_token", length=255)
+
+	@Column(name = "refresh_token", length=255)
 	private String refreshToken;
 
-	//bi-directional many-to-many association to Usergroup
-	@ManyToMany(mappedBy="users")
+	// bi-directional many-to-many association to Usergroup
+	@ManyToMany(mappedBy = "users")
 	private Set<Usergroup> groups = Sets.newHashSet();
 
-	//uni-directional many-to-many association to Role
+	// uni-directional many-to-many association to Role
 	@ManyToMany
-	@JoinTable(
-		name="user_role"
-		, joinColumns={
-			@JoinColumn(name="user_id", nullable=false)
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="role_id", nullable=false)
-			}
-		)
+	@JoinTable(name = "user_role", joinColumns = {
+			@JoinColumn(name = "user_id", nullable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "role_id", nullable = false) })
 	private Set<Role> roles = Sets.newHashSet();
-	
+
 	public Set<String> getPrivileges() {
 		final Set<Role> groupRoles = groups.stream().flatMap(g -> g.getRoles().stream()).collect(Collectors.toSet());
 
 		groupRoles.addAll(this.roles);
 
-		return groupRoles.stream().flatMap(r -> r.getPrivileges().stream()).map(Privilege::getName).collect(Collectors.toSet());
+		return groupRoles.stream().flatMap(r -> r.getPrivileges().stream()).map(Privilege::getName)
+				.collect(Collectors.toSet());
 	}
-	
+
 }

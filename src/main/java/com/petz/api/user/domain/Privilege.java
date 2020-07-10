@@ -13,15 +13,15 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
-@Table(name="privilege")
+@Table(name = "privilege")
 public class Privilege {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(unique = true, nullable = false)
 	private Integer id;
 
-	@Column(nullable=false, length=100)
+	@Column(nullable = false, length = 100)
 	private String name;
 
 }

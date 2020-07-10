@@ -11,7 +11,7 @@ import com.petz.api.user.domain.User;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;

@@ -37,7 +37,7 @@
 	</changeSet>
 	
 	<changeSet id="4-create-user" author="paulosales">
-		<createTable tableName="user">
+		<createTable tableName="users">
 			<column name="id" type="INT" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
@@ -47,7 +47,7 @@
 			<column name="password" type="VARCHAR(100)">
 				<constraints nullable="false" />
 			</column>
-			<column name="refreshToken" type="TEXT">
+			<column name="refresh_token" type="VARCHAR(255)">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
@@ -67,7 +67,7 @@
 	<changeSet id="6-create-user_usergrp" author="paulosales">
 		<createTable tableName="user_usergrp">
 			<column name="user_id" type="INT">
-				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_usergrp_user_id" references="user(id)" />
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_usergrp_user_id" references="users(id)" />
 			</column>
 			<column name="usergrp_id" type="INT">
 				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_user_usergrp_id" references="usergroup(id)" />
@@ -78,7 +78,7 @@
 	<changeSet id="7-create-user_role" author="paulosales">
 		<createTable tableName="user_role">
 			<column name="user_id" type="INT">
-				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_role_user_id" references="user(id)" />
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_role_user_id" references="users(id)" />
 			</column>
 			<column name="role_id" type="INT">
 				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_user_role_id" references="role(id)" />

@@ -20,40 +20,28 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
-@Table(name="usergroup")
+@Table(name = "usergroup")
 public class Usergroup {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(unique = true, nullable = false)
 	private Integer id;
 
-	@Column(nullable=false, length=100)
+	@Column(nullable = false, length = 100)
 	private String name;
 
-	//bi-directional many-to-many association to User
+	// bi-directional many-to-many association to User
 	@ManyToMany
-	@JoinTable(
-		name="user_usergrp"
-		, joinColumns={
-			@JoinColumn(name="usergrp_id", nullable=false)
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="user_id", nullable=false)
-			}
-		)
+	@JoinTable(name = "user_usergrp", joinColumns = {
+			@JoinColumn(name = "usergrp_id", nullable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "user_id", nullable = false) })
 	private Set<User> users = Sets.newHashSet();
 
-	//uni-directional many-to-many association to User
+	// uni-directional many-to-many association to User
 	@ManyToMany
-	@JoinTable(
-		name="usergrp_role"
-		, joinColumns={
-			@JoinColumn(name="usergrp_id", nullable=false)
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="role_id", nullable=false)
-			}
-		)
+	@JoinTable(name = "usergrp_role", joinColumns = {
+			@JoinColumn(name = "usergrp_id", nullable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "role_id", nullable = false) })
 	private Set<Role> roles = Sets.newHashSet();
 }

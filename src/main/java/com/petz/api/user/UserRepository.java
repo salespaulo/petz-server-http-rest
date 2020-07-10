@@ -10,7 +10,7 @@ import com.petz.api.user.domain.User;
 
 @Component
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+interface UserRepository extends JpaRepository<User, Long> {
 
 	Optional<User> findOneByUsername(final String username);
 	

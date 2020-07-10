@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PetzServerHttpRestApplication {
 
 	public static void main(String[] args) {
-		healthy(SpringApplication.run(PetzServerHttpRestApplication.class, "--debug"));
+		healthy(SpringApplication.run(PetzServerHttpRestApplication.class, args));
 	}
 	
 	private static void healthy(ConfigurableApplicationContext context) {
