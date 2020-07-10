@@ -11,18 +11,14 @@ import com.petz.api.user.domain.User;
 
 @Service
 @Transactional
-class UserServiceImpl implements UserService {
-
-	private final UserRepository repository;
+public class UserServiceImpl implements UserService {
 
 	@Autowired
-	public UserServiceImpl(final UserRepository userRepository) {
-		this.repository = userRepository;
-	}
+	private UserRepository userRepository;
 
 	@Override
 	public Optional<User> getByEmailOptional(final String username) {
-		return repository.findOneByUsername(username);
+		return userRepository.findOneByUsername(username);
 	}
 
 	@Override
@@ -33,7 +29,7 @@ class UserServiceImpl implements UserService {
 
 	@Override
 	public User save(final User user) {
-		return repository.saveAndFlush(user);
+		return userRepository.saveAndFlush(user);
 	}
 
 }

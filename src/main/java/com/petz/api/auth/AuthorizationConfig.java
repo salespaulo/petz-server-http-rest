@@ -20,7 +20,6 @@ import com.petz.api.auth.jwt.JwtTokenAuthenticationProcessingFilter;
 import com.petz.api.auth.token.TokenExtractor;
 
 @Configuration
-@EnableWebSecurity
 public class AuthorizationConfig extends WebSecurityConfigurerAdapter {
 
 	public static final String AUTHORIZATION_HEADER = "X-Authorization";
@@ -39,48 +38,43 @@ public class AuthorizationConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private TokenExtractor tokenExtractor;
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
-
 	@Bean
 	protected BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
 	@Bean
-	protected JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthFilter() throws Exception {
-		final SecurityRequestMatcher matcher = new SecurityRequestMatcher(TOKEN_PROTECTED_ENDPOINTS, LOGIN_PATH_ENDPOINT);
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+
+	@Bean
+	public JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthFilter() throws Exception {
+		final SecurityRequestMatcher matcher = new SecurityRequestMatcher(TOKEN_PROTECTED_ENDPOINTS,
+				LOGIN_PATH_ENDPOINT);
 
 		final JwtTokenAuthenticationProcessingFilter filter = new JwtTokenAuthenticationProcessingFilter(matcher,
 				tokenExtractor, failureHandler);
 
-		filter.setAuthenticationManager(this.authenticationManager);
+		filter.setAuthenticationManager(this.authenticationManagerBean());
 
 		return filter;
 
 	}
-
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) {
+	public void configure(AuthenticationManagerBuilder auth) {
 		auth.authenticationProvider(jwtAuthenticationProvider);
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-		.csrf().disable() // We don't need CSRF for JWT based authentication
-		.exceptionHandling()
-		.authenticationEntryPoint(this.authenticationEntryPoint)
-		.and()
-			.sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().authorizeRequests()
-			.antMatchers(LOGIN_PATH_ENDPOINT).permitAll()
-			.antMatchers(REFRESH_PATH_ENDPOINT).permitAll()
-		.and().authorizeRequests()
-			.antMatchers(TOKEN_PROTECTED_ENDPOINTS).authenticated()
-		.and()
-			.addFilterBefore(buildJwtTokenAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+	public void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable() // We don't need CSRF for JWT based authentication
+				.exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint).and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+				.antMatchers(LOGIN_PATH_ENDPOINT).permitAll().antMatchers(REFRESH_PATH_ENDPOINT).permitAll().and()
+				.authorizeRequests().antMatchers(TOKEN_PROTECTED_ENDPOINTS).authenticated().and()
+				.addFilterBefore(buildJwtTokenAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
-
+	
 }
