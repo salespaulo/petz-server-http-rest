@@ -1,7 +1,4 @@
-package com.petz.api.auth;
-
-import static com.petz.api.auth.AuthenticationEndpoint.LOGIN_PATH_ENDPOINT;
-import static com.petz.api.auth.AuthenticationEndpoint.REFRESH_PATH_ENDPOINT;
+package com.petz.api.auth.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,28 +11,24 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.petz.api.auth.jwt.JwtAuthenticationProvider;
-import com.petz.api.auth.jwt.JwtTokenAuthenticationProcessingFilter;
-import com.petz.api.auth.token.TokenExtractor;
+import com.petz.api.auth.token.TokenStringExtractor;
 
 @Configuration
-public class AuthorizationConfig extends WebSecurityConfigurerAdapter {
+public class AuthJwtConfiguration extends WebSecurityConfigurerAdapter {
 
 	public static final String AUTHORIZATION_HEADER = "X-Authorization";
 
-	public static final String TOKEN_PROTECTED_ENDPOINTS = "/api/**/";
+	@Autowired
+	private AuthJwtProvider jwtAuthenticationProvider;
 
 	@Autowired
-	private JwtAuthenticationProvider jwtAuthenticationProvider;
+	private UnauthorizedEntryPoint authenticationEntryPoint;
 
 	@Autowired
-	private RestAuthenticationEntryPoint authenticationEntryPoint;
+	private AuthFailureHandler failureHandler;
 
 	@Autowired
-	private RestAuthenticationFailureHandler failureHandler;
-
-	@Autowired
-	private TokenExtractor tokenExtractor;
+	private TokenStringExtractor tokenExtractor;
 
 	@Bean
 	protected BCryptPasswordEncoder passwordEncoder() {
@@ -49,15 +42,9 @@ public class AuthorizationConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthFilter() throws Exception {
-		final SecurityRequestMatcher matcher = new SecurityRequestMatcher(TOKEN_PROTECTED_ENDPOINTS,
-				LOGIN_PATH_ENDPOINT);
-
-		final JwtTokenAuthenticationProcessingFilter filter = new JwtTokenAuthenticationProcessingFilter(matcher,
-				tokenExtractor, failureHandler);
-
+	public AuthJwtFilter buildJwtTokenAuthFilter() throws Exception {
+		final AuthJwtFilter filter = new AuthJwtFilter(tokenExtractor, failureHandler);
 		filter.setAuthenticationManager(this.authenticationManagerBean());
-
 		return filter;
 
 	}
@@ -69,16 +56,17 @@ public class AuthorizationConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable() // We don't need CSRF for JWT based authentication
+		http.csrf().disable() 
 				.exceptionHandling()
-				.authenticationEntryPoint(this.authenticationEntryPoint).and()
+				.authenticationEntryPoint(this.authenticationEntryPoint)
+				.and()
 				.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
 				.authorizeRequests()
-				.antMatchers(LOGIN_PATH_ENDPOINT).permitAll().antMatchers(REFRESH_PATH_ENDPOINT)
-				.permitAll().and()
-				.authorizeRequests().antMatchers(TOKEN_PROTECTED_ENDPOINTS)
-				.authenticated().and()
+				.antMatchers(AuthJwtFilter.URL_AUTH).permitAll()
+				.antMatchers(AuthJwtFilter.URL_BASE).authenticated()
+				.and()
 				.addFilterBefore(buildJwtTokenAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 

@@ -13,27 +13,28 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
-import com.petz.api.auth.resource.UserLoggedIn;
+import com.petz.api.auth.resource.LoggedInResource;
+import com.petz.api.auth.token.TokenResource;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
-public class AccessJwtTokenFactory {
+public class TokenJwtFactory {
 
-	public static final String CLAIMS_PRIVILEGES = "privileges";
+	public static final String CLAIM_PRIVILEGES = "privileges";
 
-    private static final String ROLE_REFRESH_TOKEN = "ROLE_REFRESH_TOKEN";
+    private static final String PRIV_PROFILE_GET = "PROFILE_GET";
 
     private final JwtSettings settings;
 
     @Autowired
-    public AccessJwtTokenFactory(final JwtSettings settings) {
+    public TokenJwtFactory(final JwtSettings settings) {
 		this.settings = settings;
 	}
 
-	public JwtToken createAccessJwtToken(UserLoggedIn userLoggedIn) {
+	public TokenResource createAccessJwtToken(LoggedInResource userLoggedIn) {
 		Preconditions.checkArgument(StringUtils.isNotBlank(userLoggedIn.getUsername()), "Cannot create JWT Token without username");
 		Preconditions.checkArgument(notEmptyAuthorities(userLoggedIn), "User doesn't have any privileges");
 
@@ -47,7 +48,7 @@ public class AccessJwtTokenFactory {
 
         final Claims claims = Jwts.claims().setSubject(userLoggedIn.getUsername());
 
-        claims.put(CLAIMS_PRIVILEGES, getPrivileges(userLoggedIn));
+        claims.put(CLAIM_PRIVILEGES, getPrivileges(userLoggedIn));
 
 		String token = Jwts.builder()
           .setClaims(claims)
@@ -57,10 +58,10 @@ public class AccessJwtTokenFactory {
           .signWith(SignatureAlgorithm.HS512, tokenSigningKey)
         .compact();
 
-        return new AccessJwtToken(token, claims);
+        return new TokenJwtToAccess(token, claims);
     }
 
-    public JwtToken createRefreshAccessJwtToken(UserLoggedIn userLoggedIn) {
+    public TokenResource createRefreshAccessJwtToken(LoggedInResource userLoggedIn) {
 
         if (StringUtils.isBlank(userLoggedIn.getUsername())) {
             throw new IllegalArgumentException("Cannot create JWT Token without username");
@@ -75,7 +76,7 @@ public class AccessJwtTokenFactory {
 		final Date expiration = Date.from(currentTime.plusMinutes(tokenExpiration).toInstant());
 
         final Claims claims = Jwts.claims().setSubject(userLoggedIn.getUsername());
-        claims.put(CLAIMS_PRIVILEGES, Arrays.asList(ROLE_REFRESH_TOKEN));
+        claims.put(CLAIM_PRIVILEGES, Arrays.asList(PRIV_PROFILE_GET));
         
         String token = Jwts.builder()
           .setClaims(claims)
@@ -86,16 +87,16 @@ public class AccessJwtTokenFactory {
           .signWith(SignatureAlgorithm.HS512, tokenSigningKey)
         .compact();
 
-        return new AccessJwtToken(token, claims);
+        return new TokenJwtToAccess(token, claims);
     }
 
-	private List<String> getPrivileges(final UserLoggedIn userLoggedIn) {
+	private List<String> getPrivileges(final LoggedInResource userLoggedIn) {
 		return userLoggedIn.getAuthorities().stream()
 				.map(GrantedAuthority::toString)
 				.collect(Collectors.toList());
 	}
 
-	private boolean notEmptyAuthorities(final UserLoggedIn userLoggedIn) {
+	private boolean notEmptyAuthorities(final LoggedInResource userLoggedIn) {
 		return ! userLoggedIn.getAuthorities().isEmpty();
 	}
 

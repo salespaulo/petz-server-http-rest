@@ -16,7 +16,7 @@ import com.petz.api.user.domain.User;
 import com.petz.api.user.resource.UserResource;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 public class UserRestController {
 
 	public final UserService userService;
@@ -26,7 +26,7 @@ public class UserRestController {
 		this.userService = userService;
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	public @ResponseBody UserResource criar(@RequestBody User user) {
 		return userService
 				.criar(user)
@@ -34,7 +34,7 @@ public class UserRestController {
 				.get();
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.PUT)
+	@RequestMapping(value = "/users", method = RequestMethod.PUT)
 	public @ResponseBody UserResource atualizar(@RequestBody User user) {
 		return userService
 				.atualizar(user)
@@ -42,7 +42,7 @@ public class UserRestController {
 				.get();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
 	public @ResponseBody UserResource excluir(@PathVariable Integer id) {
 		return userService
 				.excluirPorId(id)
@@ -50,7 +50,7 @@ public class UserRestController {
 				.orElseThrow(supplierUserNotFound(id));
 	}
 
-	@RequestMapping(value = "/{username}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/users/{username}", method = RequestMethod.DELETE)
 	public @ResponseBody UserResource excluir(@PathVariable String username) {
 		return userService
 				.excluirPorUsername(username)
@@ -58,7 +58,7 @@ public class UserRestController {
 				.orElseThrow(supplierUserNotFound(username));
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
 	public @ResponseBody UserResource buscarPorId(@PathVariable Integer id) {
 		return userService
 				.buscarPorId(id)
@@ -66,7 +66,7 @@ public class UserRestController {
 				.orElseThrow(supplierUserNotFound(id));
 	}
 
-	@RequestMapping(value = "/username/{username}", method = RequestMethod.GET)
+	@RequestMapping(value = "/users/username/{username}", method = RequestMethod.GET)
 	public @ResponseBody UserResource buscarPorUsername(@PathVariable String username) {
 		return userService
 				.buscarPorUsername(username)
@@ -74,7 +74,7 @@ public class UserRestController {
 				.orElseThrow(supplierUserNotFound(username));
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public @ResponseBody Page<UserResource> listar(Pageable pageable) {
 		return userService
 				.listar(pageable)

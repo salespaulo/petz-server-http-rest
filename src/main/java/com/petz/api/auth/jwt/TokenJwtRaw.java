@@ -5,6 +5,7 @@ import static com.petz.api.core.exception.Exceptions.newJwtTokenExpired;
 
 import org.springframework.security.authentication.BadCredentialsException;
 
+import com.petz.api.auth.token.TokenResource;
 import com.petz.api.core.exception.JwtTokenExpiredException;
 
 import io.jsonwebtoken.Claims;
@@ -17,11 +18,11 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class RawJwtToken implements JwtToken {
+public class TokenJwtRaw implements TokenResource {
             
     private final String token;
     
-    public RawJwtToken(final String token) {
+    public TokenJwtRaw(final String token) {
         this.token = token;
     }
 

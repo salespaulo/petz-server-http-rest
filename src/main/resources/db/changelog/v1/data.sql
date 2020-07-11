@@ -1,15 +1,15 @@
 -- User
 INSERT INTO users(name, username, password)     --Password: Test
-    VALUES ('John Admin', 'john.admin@ps.org', '$2a$10$.z6m5mLsgrHOUrPR1hqsouYOGGDIawvKNLU5LhWUYFyOAfzTlSE4m');
+    VALUES ('John Admin', 'john.admin@ps.org', '$2a$10$VPZ40i6ON99Jf967Xqd1Ke7FRf7Tawe6zj5VeTuoMD0ZuTWzn61/e');
 
 INSERT INTO users(name, username, password)     --Password: Test
-    VALUES ('Ana Guest', 'ana.guest@ps.org', '$2a$10$.z6m5mLsgrHOUrPR1hqsouYOGGDIawvKNLU5LhWUYFyOAfzTlSE4m');
+    VALUES ('Ana Guest', 'ana.guest@ps.org', '$2a$10$VPZ40i6ON99Jf967Xqd1Ke7FRf7Tawe6zj5VeTuoMD0ZuTWzn61/e');
 
 INSERT INTO users(name, username, password)     --Password: Test
-    VALUES ('Mike Operator', 'mike.operator@ps.org', '$2a$10$.z6m5mLsgrHOUrPR1hqsouYOGGDIawvKNLU5LhWUYFyOAfzTlSE4m');
+    VALUES ('Mike Operator', 'mike.operator@ps.org', '$2a$10$VPZ40i6ON99Jf967Xqd1Ke7FRf7Tawe6zj5VeTuoMD0ZuTWzn61/e');
 
 INSERT INTO users(name, username, password)     --Password: Test
-    VALUES ('Custom User', 'custom.user@ps.org', '$2a$10$.z6m5mLsgrHOUrPR1hqsouYOGGDIawvKNLU5LhWUYFyOAfzTlSE4m');
+    VALUES ('Custom User', 'custom.user@ps.org', '$2a$10$VPZ40i6ON99Jf967Xqd1Ke7FRf7Tawe6zj5VeTuoMD0ZuTWzn61/e');
 
 -- User Group
 INSERT INTO usergroup(name) VALUES ('Root');

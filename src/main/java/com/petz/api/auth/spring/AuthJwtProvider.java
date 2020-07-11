@@ -1,4 +1,4 @@
-package com.petz.api.auth.jwt;
+package com.petz.api.auth.spring;
 
 import java.util.List;
 
@@ -9,26 +9,27 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Sets;
-import com.petz.api.auth.resource.AuthenticationTokenResource;
-import com.petz.api.auth.resource.UserLoggedIn;
+import com.petz.api.auth.jwt.JwtSettings;
+import com.petz.api.auth.jwt.TokenJwtRaw;
+import com.petz.api.auth.resource.LoggedInResource;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 
 @Component
-public class JwtAuthenticationProvider implements AuthenticationProvider {
+public class AuthJwtProvider implements AuthenticationProvider {
 
 	private final JwtSettings settings;
 	
 	@Autowired
-	public JwtAuthenticationProvider(final JwtSettings settings) {
+	public AuthJwtProvider(final JwtSettings settings) {
 		this.settings = settings;
 	}
 
 	@Override
 	public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
-		final AuthenticationTokenResource authToken = (AuthenticationTokenResource) authentication;
-		final RawJwtToken rawToken = (RawJwtToken) authToken.getCredentials();
+		final AuthJwtResource authToken = (AuthJwtResource) authentication;
+		final TokenJwtRaw rawToken = (TokenJwtRaw) authToken.getCredentials();
 
 		final Jws<Claims> jwsClaims = rawToken.parse(settings.getTokenSigningKey());
 
@@ -37,12 +38,12 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 		@SuppressWarnings("unchecked")
 		final List<String> privileges = jwsClaims.getBody().get("privileges", List.class);
 
-		return new AuthenticationTokenResource(new UserLoggedIn(subject, Sets.newHashSet(privileges)));
+		return new AuthJwtResource(new LoggedInResource(subject, Sets.newHashSet(privileges)));
 	}
 
 	@Override
 	public boolean supports(final Class<?> authentication) {
-		return AuthenticationTokenResource.class.isAssignableFrom(authentication);
+		return AuthJwtResource.class.isAssignableFrom(authentication);
 	}
 	
 }

@@ -5,31 +5,31 @@ import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.petz.api.auth.jwt.AccessJwtTokenFactory;
-import com.petz.api.auth.jwt.JwtToken;
-import com.petz.api.auth.resource.LoginTokenResource;
-import com.petz.api.auth.resource.UserLoggedIn;
+import com.petz.api.auth.jwt.TokenJwtFactory;
+import com.petz.api.auth.resource.LoginResource;
+import com.petz.api.auth.resource.LoggedInResource;
+import com.petz.api.auth.token.TokenResource;
 
 @Component
 public class LoginTokenMapper {
 
-	private final AccessJwtTokenFactory tokenFactory;
+	private final TokenJwtFactory tokenFactory;
 
 	@Autowired
-	public LoginTokenMapper(final AccessJwtTokenFactory tokenFactory) {
+	public LoginTokenMapper(final TokenJwtFactory tokenFactory) {
 		super();
 		this.tokenFactory = tokenFactory;
 	}
 
-	public Function<UserLoggedIn, LoginTokenResource> map() {
+	public Function<LoggedInResource, LoginResource> map() {
 		return this::build;
 	}
 	
-	private LoginTokenResource build(final UserLoggedIn userLoggedIn) {
-		final JwtToken accessToken = tokenFactory.createAccessJwtToken(userLoggedIn);
-		final JwtToken refreshAccessToken = tokenFactory.createRefreshAccessJwtToken(userLoggedIn);
+	private LoginResource build(final LoggedInResource userLoggedIn) {
+		final TokenResource accessToken = tokenFactory.createAccessJwtToken(userLoggedIn);
+		final TokenResource refreshAccessToken = tokenFactory.createRefreshAccessJwtToken(userLoggedIn);
 
-		return new LoginTokenResource(accessToken, refreshAccessToken);
+		return new LoginResource(accessToken, refreshAccessToken);
 	}
 	
 }

@@ -1,4 +1,4 @@
-package com.petz.api.auth.jwt;
+package com.petz.api.auth.spring;
 
 import static com.petz.api.core.exception.Exceptions.supplierJwtTokenMissing;
 
@@ -17,21 +17,23 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.petz.api.auth.AuthorizationConfig;
-import com.petz.api.auth.SecurityRequestMatcher;
-import com.petz.api.auth.resource.AuthenticationTokenResource;
-import com.petz.api.auth.token.TokenExtractor;
+import com.petz.api.auth.jwt.TokenJwtRaw;
+import com.petz.api.auth.token.TokenStringExtractor;
 
-public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
+class AuthJwtFilter extends AbstractAuthenticationProcessingFilter {
+
+	public static final String URL_BASE = "/api/**";
+	public static final String URL_AUTH = "/auth/login";
 
 	private final AuthenticationFailureHandler failureHandler;
-	private final TokenExtractor tokenExtractor;
+	private final TokenStringExtractor tokenExtractor;
 
 	@Autowired
-	public JwtTokenAuthenticationProcessingFilter(final SecurityRequestMatcher matcher, 
-			final TokenExtractor tokenExtractor, final AuthenticationFailureHandler failureHandler) {
-		super(matcher);
+	public AuthJwtFilter(final TokenStringExtractor tokenExtractor, final AuthenticationFailureHandler failureHandler) {
+		super(new AntPathRequestMatcher(URL_BASE));
+
 		this.failureHandler = failureHandler;
 		this.tokenExtractor = tokenExtractor;
 	}
@@ -40,12 +42,13 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
 	public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 
-		final String securityHeader = request.getHeader(AuthorizationConfig.AUTHORIZATION_HEADER);
+		final String xheader = request.getHeader(AuthJwtConfiguration.AUTHORIZATION_HEADER);
+		final Optional<String> securityHeader = Optional.ofNullable(xheader);
 
-		return getAuthenticationManager().authenticate(Optional.ofNullable(securityHeader)
+		return getAuthenticationManager().authenticate(securityHeader
 				.map(tokenExtractor::extract)
-				.map(RawJwtToken::new)
-				.map(AuthenticationTokenResource::new)
+				.map(TokenJwtRaw::new)
+				.map(AuthJwtResource::new)
 				.orElseThrow(supplierJwtTokenMissing()));
 	}
 
@@ -54,11 +57,8 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
 			final FilterChain chain, final Authentication authResult) throws IOException, ServletException {
 
 		final SecurityContext context = SecurityContextHolder.createEmptyContext();
-
 		context.setAuthentication(authResult);
-
 		SecurityContextHolder.setContext(context);
-
 		chain.doFilter(request, response);
 	}
 
@@ -67,7 +67,6 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
 			AuthenticationException failed) throws IOException, ServletException {
 
 		SecurityContextHolder.clearContext();
-
 		failureHandler.onAuthenticationFailure(request, response, failed);
 	}
 }

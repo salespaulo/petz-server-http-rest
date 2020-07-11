@@ -13,20 +13,20 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import com.petz.api.user.domain.User;
 
-public final class UserLoggedIn {
+public final class LoggedInResource {
 
 	private final String username;
 	private List<GrantedAuthority> authorities = Collections.emptyList();
 
-	public UserLoggedIn(final User user) {
+	public LoggedInResource(final User user) {
 		this(user.getUsername(), user.getPrivileges());
 	}
 	
-	public UserLoggedIn(final String username, String...privileges) {
+	public LoggedInResource(final String username, String...privileges) {
 		this(username, Sets.newHashSet(privileges));
 	}
 	
-	public UserLoggedIn(String username, Set<String> privileges) {
+	public LoggedInResource(String username, Set<String> privileges) {
 		Preconditions.checkArgument(StringUtils.isNotBlank(username), "Username is empty.");
 		Preconditions.checkArgument(! privileges.isEmpty(), "Privileges is empty.");
 

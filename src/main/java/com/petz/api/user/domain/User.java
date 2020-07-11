@@ -55,12 +55,20 @@ public class User {
 	private Set<Role> roles = Sets.newHashSet();
 
 	public Set<String> getPrivileges() {
-		final Set<Role> groupRoles = groups.stream().flatMap(g -> g.getRoles().stream()).collect(Collectors.toSet());
+		final Set<Role> groupRoles = groups
+				.stream()
+				.flatMap(g -> g.getRoles().stream())
+				.collect(Collectors.toSet());
 
 		groupRoles.addAll(this.roles);
 
-		return groupRoles.stream().flatMap(r -> r.getPrivileges().stream()).map(Privilege::getName)
+		final Set<String> privileges = groupRoles
+				.stream()
+				.flatMap(r -> r.getPrivileges().stream())
+				.map(Privilege::getName)
 				.collect(Collectors.toSet());
+
+		return privileges;
 	}
 
 }

@@ -1,23 +1,24 @@
-package com.petz.api.auth.resource;
+package com.petz.api.auth.spring;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
-import com.petz.api.auth.jwt.RawJwtToken;
+import com.petz.api.auth.jwt.TokenJwtRaw;
+import com.petz.api.auth.resource.LoggedInResource;
 
-public class AuthenticationTokenResource extends AbstractAuthenticationToken {
+public class AuthJwtResource extends AbstractAuthenticationToken {
 
     private static final long serialVersionUID = 2877954820905567501L;
 
-    private RawJwtToken rawAccessToken;
-    private UserLoggedIn userLoggedIn;
+    private TokenJwtRaw rawAccessToken;
+    private LoggedInResource userLoggedIn;
 
-    public AuthenticationTokenResource(final RawJwtToken unsafeToken) {
+    public AuthJwtResource(final TokenJwtRaw unsafeToken) {
         super(null);
         this.rawAccessToken = unsafeToken;
         this.setAuthenticated(false);
     }
 
-    public AuthenticationTokenResource(final UserLoggedIn userLoggedIn) {
+    public AuthJwtResource(final LoggedInResource userLoggedIn) {
         super(userLoggedIn.getAuthorities());
 
         this.userLoggedIn = userLoggedIn;
@@ -51,7 +52,7 @@ public class AuthenticationTokenResource extends AbstractAuthenticationToken {
         this.rawAccessToken = null;
     }
     
-    public UserLoggedIn getUserLoggedIn() {
-    	return (UserLoggedIn) this.getPrincipal();
+    public LoggedInResource getUserLoggedIn() {
+    	return (LoggedInResource) this.getPrincipal();
     }
 }

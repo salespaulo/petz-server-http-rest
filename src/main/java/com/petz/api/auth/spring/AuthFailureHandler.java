@@ -1,4 +1,4 @@
-package com.petz.api.auth;
+package com.petz.api.auth.spring;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ import com.petz.api.core.ErrorResponse;
 import com.petz.api.core.exception.JwtTokenExpiredException;
 
 @Component
-public class RestAuthenticationFailureHandler implements AuthenticationFailureHandler {
+public class AuthFailureHandler implements AuthenticationFailureHandler {
 	
 	@Autowired
 	private ObjectMapper mapper;

@@ -5,7 +5,7 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.stereotype.Component;
 
 @Component
-public class HeaderTokenExtractor implements TokenExtractor {  
+class TokenStringBearerExtractor implements TokenStringExtractor {  
 
     public static String HEADER_PREFIX = "Bearer ";
 

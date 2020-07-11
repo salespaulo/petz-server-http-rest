@@ -1,4 +1,4 @@
-package com.petz.api.auth;
+package com.petz.api.auth.spring;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 
 	private static final String UNAUTHORIZED = "Unauthorized";
 

@@ -5,8 +5,8 @@ import java.util.function.Supplier;
 
 import org.springframework.security.authentication.BadCredentialsException;
 
-import com.petz.api.auth.jwt.JwtToken;
-import com.petz.api.auth.jwt.RawJwtToken;
+import com.petz.api.auth.jwt.TokenJwtRaw;
+import com.petz.api.auth.token.TokenResource;
 import com.petz.api.user.domain.User;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -33,7 +33,7 @@ public final class Exceptions {
 		return () -> new JwtTokenMissingException();
 	}
 
-	public static Supplier<JwtTokenInvalidException> supplierJwtTokenInvalid(final JwtToken refreshToken) {
+	public static Supplier<JwtTokenInvalidException> supplierJwtTokenInvalid(final TokenResource refreshToken) {
 		return () -> new JwtTokenInvalidException(refreshToken);
 	}
 
@@ -41,7 +41,7 @@ public final class Exceptions {
 		return new BadCredentialsException("Bad Credentials Authorization.", cause);
 	}
 
-	public static JwtTokenExpiredException newJwtTokenExpired(final RawJwtToken token, final ExpiredJwtException cause) {
+	public static JwtTokenExpiredException newJwtTokenExpired(final TokenJwtRaw token, final ExpiredJwtException cause) {
 		return new JwtTokenExpiredException(token, cause);
 	}
 

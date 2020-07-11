@@ -5,10 +5,12 @@ import java.util.Optional;
 
 import org.springframework.security.authentication.BadCredentialsException;
 
+import com.petz.api.auth.token.TokenResource;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 
-public final class RefreshAccessJwtToken implements JwtToken {
+public final class TokenJwtToRefresh implements TokenResource {
 
 	public static enum Privilege {
 	    ROLE_REFRESH_TOKEN;
@@ -16,7 +18,7 @@ public final class RefreshAccessJwtToken implements JwtToken {
 	
 	private Jws<Claims> claims;
 
-	private RefreshAccessJwtToken(final Jws<Claims> claims) {
+	private TokenJwtToRefresh(final Jws<Claims> claims) {
 		this.claims = claims;
 	}
 
@@ -31,7 +33,7 @@ public final class RefreshAccessJwtToken implements JwtToken {
 	 * 
 	 * @return
 	 */
-	public static Optional<RefreshAccessJwtToken> of(final RawJwtToken token, final String signingKey) {
+	public static Optional<TokenJwtToRefresh> of(final TokenJwtRaw token, final String signingKey) {
 		final Jws<Claims> claims = token.parse(signingKey);
 
 		@SuppressWarnings("unchecked")
@@ -41,7 +43,7 @@ public final class RefreshAccessJwtToken implements JwtToken {
 			return Optional.empty();
 		}
 
-		return Optional.of(new RefreshAccessJwtToken(claims));
+		return Optional.of(new TokenJwtToRefresh(claims));
 	}
 
 	private static boolean inRefreshScopes(final List<String> scopes) {

@@ -15,7 +15,7 @@ public class PetzServerHttpRestApplication {
 	}
 	
 	private static void healthy(ConfigurableApplicationContext context) {
-		log.info("Running Context Id={} !", context.getId());
+		log.info("Running {} - OK", context.getId());
 	}
 
 }
