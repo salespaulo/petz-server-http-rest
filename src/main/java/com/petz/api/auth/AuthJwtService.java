@@ -4,6 +4,7 @@ import static com.petz.api.core.exception.Exceptions.supplierJwtTokenInvalid;
 import static com.petz.api.core.exception.Exceptions.supplierUsernamePasswordInvalid;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -13,15 +14,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.petz.api.auth.resource.LoginResource;
 import com.petz.api.auth.jwt.JwtSettings;
 import com.petz.api.auth.jwt.TokenJwtRaw;
 import com.petz.api.auth.jwt.TokenJwtToRefresh;
 import com.petz.api.auth.jwt.TokenJwtToRefreshVerifier;
 import com.petz.api.auth.resource.LoggedInResource;
+import com.petz.api.auth.resource.LoginResource;
 import com.petz.api.auth.resource.mapper.LoginTokenMapper;
 import com.petz.api.user.UserService;
 import com.petz.api.user.domain.User;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 
 @Service
 @Transactional
@@ -77,6 +81,10 @@ class AuthJwtService implements AuthService {
 			.orElseThrow(supplierJwtTokenInvalid(refreshToken));
 	}
 	
+	@Override
+	public LoggedInResource loggedInToken(final String token) {
+		return getLoggedInToken(token);
+	}
     
     public static void main(String[] args) {
 		System.out.println(new BCryptPasswordEncoder().encode("Test"));
@@ -98,6 +106,18 @@ class AuthJwtService implements AuthService {
 		return ! user.getPrivileges().isEmpty();
 	}
     
+	private LoggedInResource getLoggedInToken(final String token) {
+		final String signingKey = settings.getTokenSigningKey();
+        final TokenJwtRaw rawToken = new TokenJwtRaw(token);
+        final Jws<Claims> claims = rawToken.parse(signingKey);
+
+		@SuppressWarnings("unchecked")
+		final Set<String> privileges = claims.getBody().get("privileges", Set.class);
+		final String username = null;
+
+		return new LoggedInResource(username, privileges);
+	}
+
 	private TokenJwtToRefresh getRefreshAccessToken(final String token) {
 		final String signingKey = settings.getTokenSigningKey();
         final TokenJwtRaw rawToken = new TokenJwtRaw(token);

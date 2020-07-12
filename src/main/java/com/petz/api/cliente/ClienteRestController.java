@@ -16,7 +16,7 @@ import com.petz.api.cliente.domain.Cliente;
 import com.petz.api.cliente.resource.ClienteResource;
 
 @RestController
-@RequestMapping("/api/clientes")
+@RequestMapping("/api")
 public class ClienteRestController {
 
 	public final ClienteService clienteService;
@@ -26,7 +26,7 @@ public class ClienteRestController {
 		this.clienteService = clienteService;
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(value = "/clientes", method = RequestMethod.POST)
 	public @ResponseBody ClienteResource criar(@RequestBody Cliente cliente) {
 		return clienteService
 				.criar(cliente)
@@ -34,7 +34,7 @@ public class ClienteRestController {
 				.get();
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.PUT)
+	@RequestMapping(value = "/clientes", method = RequestMethod.PUT)
 	public @ResponseBody ClienteResource atualizar(@RequestBody Cliente cliente) {
 		return clienteService
 				.atualizar(cliente)
@@ -42,7 +42,7 @@ public class ClienteRestController {
 				.get();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/clientes/{id}", method = RequestMethod.DELETE)
 	public @ResponseBody ClienteResource excluir(@PathVariable Integer id) {
 		return clienteService
 				.excluirPorId(id)
@@ -50,7 +50,7 @@ public class ClienteRestController {
 				.orElseThrow(supplierResourceNotFound("Cliente", id));
 	}
 	
-	@RequestMapping(value = "/cpf/{cpf}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/clientes/cpf/{cpf}", method = RequestMethod.DELETE)
 	public @ResponseBody ClienteResource excluir(@PathVariable String cpf) {
 		return clienteService
 				.excluirPorCpf(cpf)
@@ -58,7 +58,7 @@ public class ClienteRestController {
 				.orElseThrow(supplierResourceNotFound("Cliente", cpf));
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/clientes/{id}", method = RequestMethod.GET)
 	public @ResponseBody ClienteResource buscarPorId(@PathVariable Integer id) {
 		return clienteService
 				.buscarPorId(id)
@@ -66,7 +66,7 @@ public class ClienteRestController {
 				.orElseThrow(supplierResourceNotFound("Cliente", id));
 	}
 
-	@RequestMapping(value = "/cpf/{cpf}", method = RequestMethod.GET)
+	@RequestMapping(value = "/clientes/cpf/{cpf}", method = RequestMethod.GET)
 	public @ResponseBody ClienteResource buscarPorCpf(@PathVariable String cpf) {
 		return clienteService
 				.buscarPorCpf(cpf)
@@ -74,7 +74,7 @@ public class ClienteRestController {
 				.orElseThrow(supplierResourceNotFound("Cliente", cpf));
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/clientes", method = RequestMethod.GET)
 	public @ResponseBody Page<ClienteResource> listar(Pageable pageable) {
 		return clienteService
 				.listar(pageable)

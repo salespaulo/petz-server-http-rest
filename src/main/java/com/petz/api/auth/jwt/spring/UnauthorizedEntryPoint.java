@@ -1,4 +1,4 @@
-package com.petz.api.auth.spring;
+package com.petz.api.auth.jwt.spring;
 
 import java.io.IOException;
 

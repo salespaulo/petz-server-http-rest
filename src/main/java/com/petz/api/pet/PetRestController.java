@@ -17,7 +17,7 @@ import com.petz.api.pet.domain.Pet;
 import com.petz.api.pet.resource.PetResource;
 
 @RestController
-@RequestMapping("/api/pets")
+@RequestMapping("/api")
 public class PetRestController {
 
 	public final PetService petService;
@@ -29,7 +29,7 @@ public class PetRestController {
 		this.clienteService = clienteService;
 	}
 
-	@RequestMapping(value = "/{clienteId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/pets/{clienteId}", method = RequestMethod.POST)
 	public @ResponseBody PetResource criar(@PathVariable Integer clienteId, @RequestBody Pet pet) {
 		return clienteService.buscarPorId(clienteId)
 				.map(cliente -> {
@@ -41,7 +41,7 @@ public class PetRestController {
 				.orElseThrow(supplierResourceNotFound("Cliente", clienteId));
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.PUT)
+	@RequestMapping(value = "/pets", method = RequestMethod.PUT)
 	public @ResponseBody PetResource atualizar(@RequestBody Pet pet) {
 		return petService
 				.atualizar(pet)
@@ -49,7 +49,7 @@ public class PetRestController {
 				.get();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/pets/{id}", method = RequestMethod.DELETE)
 	public @ResponseBody PetResource excluir(@PathVariable Integer id) {
 		return petService
 				.excluirPorId(id)
@@ -57,7 +57,7 @@ public class PetRestController {
 				.orElseThrow(supplierResourceNotFound("Pet", id));
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/pets/{id}", method = RequestMethod.GET)
 	public @ResponseBody PetResource buscarPorId(@PathVariable Integer id) {
 		return petService
 				.buscarPorId(id)
@@ -65,7 +65,7 @@ public class PetRestController {
 				.orElseThrow(supplierResourceNotFound("Pet", id));
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/pets", method = RequestMethod.GET)
 	public @ResponseBody Page<PetResource> listar(Pageable pageable) {
 		return petService
 				.listar(pageable)

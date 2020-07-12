@@ -1,7 +1,6 @@
 package com.petz.api.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,12 +32,6 @@ public class AuthRestController {
     		@RequestHeader("refresh-token") final String token) {
 
         return authenticationService.tokenRefresh(token);
-    }
-
-    @Secured("PROFILE_GET")
-	@RequestMapping(value="/profile", method=RequestMethod.GET)
-    public @ResponseBody String profile() {
-    	return "FUNCIONOU!";
     }
 
 }

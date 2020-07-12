@@ -5,13 +5,18 @@ import static com.petz.api.core.exception.Exceptions.supplierUserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.petz.api.auth.AuthService;
+import com.petz.api.auth.resource.LoggedInResource;
 import com.petz.api.user.domain.User;
 import com.petz.api.user.resource.UserResource;
 
@@ -20,10 +25,12 @@ import com.petz.api.user.resource.UserResource;
 public class UserRestController {
 
 	public final UserService userService;
+	public final AuthService authService;
 	
 	@Autowired
-	public UserRestController(final UserService userService) {
+	public UserRestController(final UserService userService, AuthService authService) {
 		this.userService = userService;
+		this.authService = authService;
 	}
 
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
@@ -79,6 +86,13 @@ public class UserRestController {
 		return userService
 				.listar(pageable)
 				.map(UserResource.map());
+	}
+
+	@Secured("PROFILE_GET")
+	@RequestMapping(value = "/users/profile", method = RequestMethod.GET)
+	public @ResponseBody LoggedInResource profile() {
+		final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();	
+		return (LoggedInResource) principal;
 	}
 
 }

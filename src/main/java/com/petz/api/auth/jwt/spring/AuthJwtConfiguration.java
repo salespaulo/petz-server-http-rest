@@ -1,4 +1,4 @@
-package com.petz.api.auth.spring;
+package com.petz.api.auth.jwt.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.petz.api.auth.spring;
+package com.petz.api.auth.jwt.spring;
 
 import static com.petz.api.core.exception.Exceptions.supplierJwtTokenMissing;
 
@@ -25,7 +25,7 @@ import com.petz.api.auth.token.TokenStringExtractor;
 class AuthJwtFilter extends AbstractAuthenticationProcessingFilter {
 
 	public static final String URL_BASE = "/api/**";
-	public static final String URL_AUTH = "/auth/login";
+	public static final String URL_AUTH = "/auth/**";
 
 	private final AuthenticationFailureHandler failureHandler;
 	private final TokenStringExtractor tokenExtractor;

@@ -8,26 +8,44 @@ INSERT INTO role_priv(
 INSERT INTO role_priv(
             role_id, privilege_id)
     SELECT r.id, p.id FROM role r, privilege p
-    WHERE r.id = (SELECT id FROM role WHERE name = 'Guest')
-    AND p.id = (SELECT id FROM privilege WHERE name = 'PETZ_LIST');
+    WHERE r.id = (SELECT id FROM role WHERE name = 'Petz')
+    AND p.id = (SELECT id FROM privilege WHERE name = 'PET_GET');
 
 INSERT INTO role_priv(
             role_id, privilege_id)
     SELECT r.id, p.id FROM role r, privilege p
     WHERE r.id = (SELECT id FROM role WHERE name = 'Petz')
-    AND p.id = (SELECT id FROM privilege WHERE name = 'PETZ_GET');
+    AND p.id = (SELECT id FROM privilege WHERE name = 'PET_LIST');
 
 INSERT INTO role_priv(
             role_id, privilege_id)
     SELECT r.id, p.id FROM role r, privilege p
     WHERE r.id = (SELECT id FROM role WHERE name = 'Petz')
-    AND p.id = (SELECT id FROM privilege WHERE name = 'PETZ_LIST');
+    AND p.id = (SELECT id FROM privilege WHERE name = 'PET_SAVE');
 
 INSERT INTO role_priv(
             role_id, privilege_id)
     SELECT r.id, p.id FROM role r, privilege p
     WHERE r.id = (SELECT id FROM role WHERE name = 'Petz')
-    AND p.id = (SELECT id FROM privilege WHERE name = 'PETZ_SAVE');
+    AND p.id = (SELECT id FROM privilege WHERE name = 'CLIENTE_GET');
+
+INSERT INTO role_priv(
+            role_id, privilege_id)
+    SELECT r.id, p.id FROM role r, privilege p
+    WHERE r.id = (SELECT id FROM role WHERE name = 'Petz')
+    AND p.id = (SELECT id FROM privilege WHERE name = 'CLIENTE_LIST');
+    
+INSERT INTO role_priv(
+            role_id, privilege_id)
+    SELECT r.id, p.id FROM role r, privilege p
+    WHERE r.id = (SELECT id FROM role WHERE name = 'Petz')
+    AND p.id = (SELECT id FROM privilege WHERE name = 'CLIENTE_SAVE');
+
+INSERT INTO role_priv(
+            role_id, privilege_id)
+    SELECT r.id, p.id FROM role r, privilege p
+    WHERE r.id = (SELECT id FROM role WHERE name = 'Petz')
+    AND p.id = (SELECT id FROM privilege WHERE name = 'CLIENTE_DELETE');
 
 INSERT INTO role_priv(
             role_id, privilege_id)
@@ -39,25 +57,73 @@ INSERT INTO role_priv(
             role_id, privilege_id)
     SELECT r.id, p.id FROM role r, privilege p
     WHERE r.id = (SELECT id FROM role WHERE name = 'Admin')
-    AND p.id = (SELECT id FROM privilege WHERE name = 'PETZ_GET');
-
-INSERT INTO role_priv(
-            role_id, privilege_id)
-    SELECT r.id, p.id FROM role r, privilege p
-    WHERE r.id = (SELECT id FROM role WHERE name = 'Admin')
-    AND p.id = (SELECT id FROM privilege WHERE name = 'PETZ_LIST');
+    AND p.id = (SELECT id FROM privilege WHERE name = 'CLIENTE_LIST');
     
 INSERT INTO role_priv(
             role_id, privilege_id)
     SELECT r.id, p.id FROM role r, privilege p
     WHERE r.id = (SELECT id FROM role WHERE name = 'Admin')
-    AND p.id = (SELECT id FROM privilege WHERE name = 'PETZ_SAVE');
+    AND p.id = (SELECT id FROM privilege WHERE name = 'CLIENTE_SAVE');
 
 INSERT INTO role_priv(
             role_id, privilege_id)
     SELECT r.id, p.id FROM role r, privilege p
     WHERE r.id = (SELECT id FROM role WHERE name = 'Admin')
-    AND p.id = (SELECT id FROM privilege WHERE name = 'PETZ_DELETE');
+    AND p.id = (SELECT id FROM privilege WHERE name = 'CLIENTE_DELETE');
+
+INSERT INTO role_priv(
+            role_id, privilege_id)
+    SELECT r.id, p.id FROM role r, privilege p
+    WHERE r.id = (SELECT id FROM role WHERE name = 'Admin')
+    AND p.id = (SELECT id FROM privilege WHERE name = 'CLIENTE_GET');
+
+INSERT INTO role_priv(
+            role_id, privilege_id)
+    SELECT r.id, p.id FROM role r, privilege p
+    WHERE r.id = (SELECT id FROM role WHERE name = 'Admin')
+    AND p.id = (SELECT id FROM privilege WHERE name = 'USER_GET');
+
+INSERT INTO role_priv(
+            role_id, privilege_id)
+    SELECT r.id, p.id FROM role r, privilege p
+    WHERE r.id = (SELECT id FROM role WHERE name = 'Admin')
+    AND p.id = (SELECT id FROM privilege WHERE name = 'USER_LIST');
+    
+INSERT INTO role_priv(
+            role_id, privilege_id)
+    SELECT r.id, p.id FROM role r, privilege p
+    WHERE r.id = (SELECT id FROM role WHERE name = 'Admin')
+    AND p.id = (SELECT id FROM privilege WHERE name = 'USER_SAVE');
+
+INSERT INTO role_priv(
+            role_id, privilege_id)
+    SELECT r.id, p.id FROM role r, privilege p
+    WHERE r.id = (SELECT id FROM role WHERE name = 'Admin')
+    AND p.id = (SELECT id FROM privilege WHERE name = 'USER_DELETE');
+
+INSERT INTO role_priv(
+            role_id, privilege_id)
+    SELECT r.id, p.id FROM role r, privilege p
+    WHERE r.id = (SELECT id FROM role WHERE name = 'Admin')
+    AND p.id = (SELECT id FROM privilege WHERE name = 'PET_GET');
+
+INSERT INTO role_priv(
+            role_id, privilege_id)
+    SELECT r.id, p.id FROM role r, privilege p
+    WHERE r.id = (SELECT id FROM role WHERE name = 'Admin')
+    AND p.id = (SELECT id FROM privilege WHERE name = 'PET_LIST');
+    
+INSERT INTO role_priv(
+            role_id, privilege_id)
+    SELECT r.id, p.id FROM role r, privilege p
+    WHERE r.id = (SELECT id FROM role WHERE name = 'Admin')
+    AND p.id = (SELECT id FROM privilege WHERE name = 'PET_SAVE');
+
+INSERT INTO role_priv(
+            role_id, privilege_id)
+    SELECT r.id, p.id FROM role r, privilege p
+    WHERE r.id = (SELECT id FROM role WHERE name = 'Admin')
+    AND p.id = (SELECT id FROM privilege WHERE name = 'PET_DELETE');
 
 -- Group X Roles
 INSERT INTO usergrp_role(

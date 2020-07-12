@@ -59,7 +59,7 @@ class UserServiceImpl implements UserService {
 		return userRepository.findOneByUsername(username);
 	}
 
-	@Secured("PROFILE_GET")
+	@Secured("USER_GET")
 	@Override
 	public Page<User> listar(final Pageable pageable) {
 		return userRepository.findAll(pageable);
