@@ -53,29 +53,33 @@ P/ desenvolver esta solução os itens abaixo foram considerados:
 
 ## Dados p/ teste
 
-usergroup: ['Root']
-username: 'john.admin@ps.org'
-password: 'Test' // T maiusculo
-cliente cpf: 669.482.770-98
-pets nome: ['Huxley', 'Zuzi']
+1.
+- usergroup: ['Root']
+- username: 'john.admin@ps.org'
+- password: 'Test' // T maiusculo
+- cliente cpf: 669.482.770-98
+- pets nome: ['Huxley', 'Zuzi']
 
-userrole: ['Guest']
-username: 'ana.guest@ps.org'
-password: 'Test' // T maiusculo
-cliente cpf: 340.587.170-09
-pets nome: [ ]
+2.
+- userrole: ['Guest']
+- username: 'ana.guest@ps.org'
+- password: 'Test' // T maiusculo
+- cliente cpf: 340.587.170-09
+- pets nome: [ ]
 
-userrole: ['Admin']
-username: 'mike.operator@ps.org'
-password: 'Test' // T maiusculo
-cliente cpf: 224.678.370-41
-pets nome: [ ]
+3.
+- userrole: ['Admin']
+- username: 'mike.operator@ps.org'
+- password: 'Test' // T maiusculo
+- cliente cpf: 224.678.370-41
+- pets nome: [ ]
 
-userrole: ['Petz']
-username: 'custom.user@ps.org'
-password: 'Test' // T maiusculo
-cliente cpf: 082.584.760-50
-pets nome: [ ]
+4.
+- userrole: ['Petz']
+- username: 'custom.user@ps.org'
+- password: 'Test' // T maiusculo
+- cliente cpf: 082.584.760-50
+- pets nome: [ ]
 
 ## Documentação
 
