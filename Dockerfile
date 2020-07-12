@@ -6,8 +6,7 @@ ENV TZ America/Sao_Paulo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # SpringBoot
-ARG JAR_FILE
-ADD ${JAR_FILE} app.jar
+COPY target/petz-server-http-rest-0.0.1.jar app.jar
 
 VOLUME /tmp
 EXPOSE 8080

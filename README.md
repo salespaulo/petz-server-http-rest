@@ -25,7 +25,7 @@ $> ./mvnw spring-boot:run
 ```
 $> git clone https://github.com/salespaulo/petz-server-http-rest.git
 $> cd petz-server-http-rest
-$> sudo docker build .
+$> sudo docker build -t petz-server-http-rest .
 $> sudo docker run -d 
     --name <nome_container>             \ 
     --network <nome_rede>               \
