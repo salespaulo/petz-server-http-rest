@@ -47,7 +47,7 @@ public class ClienteRestController {
 		return clienteService
 				.atualizar(cliente)
 				.map(ClienteResource.map())
-				.get();
+				.orElseThrow(supplierResourceNotFound("Cliente", id));
 	}
 
 	@RequestMapping(value = "/clientes/{id}", method = RequestMethod.DELETE)

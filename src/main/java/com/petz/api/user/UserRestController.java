@@ -45,7 +45,7 @@ public class UserRestController {
 		return userService
 				.atualizar(user)
 				.map(UserResource.map())
-				.get();
+				.orElseThrow(supplierUserNotFound(id));
 	}
 
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)

@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -36,12 +38,18 @@ public class Cliente {
 	@Column(unique = true, nullable = false)
 	private Integer id;
 
+	@NotNull
+	@Size(min = 10)
 	@Column(nullable = false, length = 100)
 	private String cpf;
 
+	@NotNull
+	@Size(min = 10)
 	@Column(nullable = true, length = 100)
 	private String logradouro;
 
+	@NotNull
+	@Size(min = 8)
 	@Column(nullable = true, length = 20)
 	private String cep;
 

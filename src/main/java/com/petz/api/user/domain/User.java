@@ -13,6 +13,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.google.common.collect.Sets;
 
@@ -30,12 +33,18 @@ public class User {
 	@Column(unique = true, nullable = false)
 	private Integer id;
 
+	@NotNull
+	@Size(min = 2)
 	@Column(nullable = false, length = 100)
 	private String name;
 
+	@NotNull
+	@Email
 	@Column(nullable = false, length = 100)
 	private String username;
 
+	@NotNull
+	@Size(min = 3)
 	@Column(nullable = false, length = 100)
 	private String password;
 

@@ -41,7 +41,7 @@ public class PetRestController {
 		return petService
 				.atualizar(pet)
 				.map(PetResource.map())
-				.get();
+				.orElseThrow(supplierResourceNotFound("Pet", id));
 	}
 
 	@RequestMapping(value = "/pets/{id}", method = RequestMethod.DELETE)
