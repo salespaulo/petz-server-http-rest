@@ -14,8 +14,6 @@ INSERT INTO users(name, username, password)     --Password: Test
 -- User Group
 INSERT INTO usergroup(name) VALUES ('Root');
 
-INSERT INTO usergroup(name) VALUES ('Operator');
-    
 -- Roles
 INSERT INTO role(name) VALUES ('Guest');
 

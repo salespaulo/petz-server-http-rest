@@ -51,6 +51,32 @@ P/ desenvolver esta solução os itens abaixo foram considerados:
 4. Cliente (Cliente.java): Entidade responsável por conter os dados p/ identificarmos um cliente Petz. O cliente possui uma relação 1 p/ 1 com a entidade usuário e uma relação 1 p/ N com a entidade pet.
 5. Pet (Cliente.java): Entidade responsável por conter os dados p/ identificarmos um ou mais pets cadastrados. O pet tem uma relação N p/ 1 com a entidade cliente.
 
+## Dados p/ teste
+
+usergroup: ['Root']
+username: 'john.admin@ps.org'
+password: 'Test' // T maiusculo
+cliente cpf: 669.482.770-98
+pets nome: ['Huxley', 'Zuzi']
+
+userrole: ['Guest']
+username: 'ana.guest@ps.org'
+password: 'Test' // T maiusculo
+cliente cpf: 340.587.170-09
+pets nome: [ ]
+
+userrole: ['Admin']
+username: 'mike.operator@ps.org'
+password: 'Test' // T maiusculo
+cliente cpf: 224.678.370-41
+pets nome: [ ]
+
+userrole: ['Petz']
+username: 'custom.user@ps.org'
+password: 'Test' // T maiusculo
+cliente cpf: 082.584.760-50
+pets nome: [ ]
+
 ## Documentação
 
 * http://localhost:8080/swagger-ui.html
