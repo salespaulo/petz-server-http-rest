@@ -11,6 +11,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public final class UserResource {
 
+	private Integer id;
+
 	private String name;
 	
 	private String username;
@@ -18,7 +20,10 @@ public final class UserResource {
 	private String refreshToken;
 	
 	public static final Function<User, UserResource> map() {
-		return user -> new UserResource(user.getName(), user.getUsername(), user.getRefreshToken());
+		return user -> new UserResource(user.getId(), 
+				user.getName(), 
+				user.getUsername(), 
+				user.getRefreshToken());
 	}
 	
 }

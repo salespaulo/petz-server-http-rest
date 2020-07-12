@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.security.authentication.BadCredentialsException;
 
 import com.petz.api.auth.token.TokenResource;
+import com.petz.api.core.exception.JwtTokenExpiredException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -13,7 +14,7 @@ import io.jsonwebtoken.Jws;
 public final class TokenJwtToRefresh implements TokenResource {
 
 	public static enum Privilege {
-	    ROLE_REFRESH_TOKEN;
+	    PROFILE_GET;
 	}
 	
 	private Jws<Claims> claims;
@@ -47,7 +48,7 @@ public final class TokenJwtToRefresh implements TokenResource {
 	}
 
 	private static boolean inRefreshScopes(final List<String> scopes) {
-		return scopes.contains(Privilege.ROLE_REFRESH_TOKEN.toString());
+		return scopes.contains(Privilege.PROFILE_GET.toString());
 	}
 
 	@Override

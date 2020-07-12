@@ -2,7 +2,7 @@ package com.petz.api.core.exception;
 
 import com.petz.api.auth.token.TokenResource;
 
-public class JwtTokenInvalidException extends JwtTokenAuthenticationException {
+public class JwtTokenInvalidException extends AuthJwtTokenException {
 
 	private static final String JWT_TOKEN_INVALID = "Jwt Token Invalid.";
 

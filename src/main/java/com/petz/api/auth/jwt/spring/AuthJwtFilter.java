@@ -22,7 +22,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.petz.api.auth.jwt.TokenJwtRaw;
 import com.petz.api.auth.token.TokenStringExtractor;
 
-class AuthJwtFilter extends AbstractAuthenticationProcessingFilter {
+public class AuthJwtFilter extends AbstractAuthenticationProcessingFilter {
 
 	public static final String URL_BASE = "/api/**";
 	public static final String URL_AUTH = "/auth/**";

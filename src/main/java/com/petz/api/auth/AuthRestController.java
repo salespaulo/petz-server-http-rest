@@ -29,7 +29,7 @@ public class AuthRestController {
 
 	@RequestMapping(value="/token", method=RequestMethod.POST)
     public @ResponseBody LoginResource refresh(
-    		@RequestHeader("refresh-token") final String token) {
+    		@RequestHeader("token") final String token) {
 
         return authenticationService.tokenRefresh(token);
     }

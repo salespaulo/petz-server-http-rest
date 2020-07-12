@@ -28,7 +28,14 @@ class ClienteServiceImpl implements ClienteService {
 	@Secured("CLIENTE_SAVE")
 	@Override
 	public Optional<Cliente> atualizar(final Cliente cliente) {
-		return Optional.of(clienteRepository.save(cliente));
+		return clienteRepository
+				.findById(cliente.getId())
+				.map(byId -> {
+					byId.setLogradouro(cliente.getLogradouro());
+					byId.setCep(cliente.getCep());
+					return byId;
+				})
+				.map(clienteRepository::save);
 	}
 
 	@Secured("CLIENTE_DELETE")

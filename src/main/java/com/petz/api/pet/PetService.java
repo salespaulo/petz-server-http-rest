@@ -25,7 +25,7 @@ public interface PetService {
 
 	Optional<Pet> atualizar(Pet cliente);
 
-	Optional<Pet> criar(Pet cliente);
+	Optional<Pet> criar(final Integer clienteId, Pet cliente);
 
 
 }

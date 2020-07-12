@@ -28,7 +28,14 @@ class UserServiceImpl implements UserService {
 	@Secured("USER_SAVE")
 	@Override
 	public Optional<User> atualizar(final User user) {
-		return Optional.of(userRepository.save(user));
+		return userRepository
+				.findById(user.getId())
+				.map(userById -> {
+					userById.setName(user.getName());
+					userById.setPassword(user.getPassword());
+					return userById;
+				})
+				.map(userRepository::save);
 	}
 
 	@Secured("USER_DELETE")

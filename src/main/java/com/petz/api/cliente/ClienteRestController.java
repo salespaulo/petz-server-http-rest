@@ -2,6 +2,10 @@ package com.petz.api.cliente;
 
 import static com.petz.api.core.exception.Exceptions.supplierResourceNotFound;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,15 +31,19 @@ public class ClienteRestController {
 	}
 
 	@RequestMapping(value = "/clientes", method = RequestMethod.POST)
-	public @ResponseBody ClienteResource criar(@RequestBody Cliente cliente) {
+	public @ResponseBody ClienteResource criar(@Valid @RequestBody Cliente cliente) {
 		return clienteService
 				.criar(cliente)
 				.map(ClienteResource.map())
 				.get();
 	}
 
-	@RequestMapping(value = "/clientes", method = RequestMethod.PUT)
-	public @ResponseBody ClienteResource atualizar(@RequestBody Cliente cliente) {
+	@RequestMapping(value = "/clientes/{id}", method = RequestMethod.PUT)
+	public @ResponseBody ClienteResource atualizar(
+			@NotNull
+			@Size(min = 0)
+			@PathVariable Integer id, @Valid @RequestBody Cliente cliente) {
+		cliente.setId(id);
 		return clienteService
 				.atualizar(cliente)
 				.map(ClienteResource.map())
@@ -43,7 +51,7 @@ public class ClienteRestController {
 	}
 
 	@RequestMapping(value = "/clientes/{id}", method = RequestMethod.DELETE)
-	public @ResponseBody ClienteResource excluir(@PathVariable Integer id) {
+	public @ResponseBody ClienteResource excluir(@NotNull @Size(min = 0) @PathVariable Integer id) {
 		return clienteService
 				.excluirPorId(id)
 				.map(ClienteResource.map())
@@ -51,7 +59,7 @@ public class ClienteRestController {
 	}
 	
 	@RequestMapping(value = "/clientes/cpf/{cpf}", method = RequestMethod.DELETE)
-	public @ResponseBody ClienteResource excluir(@PathVariable String cpf) {
+	public @ResponseBody ClienteResource excluir(@NotNull @Size(min = 10) @PathVariable String cpf) {
 		return clienteService
 				.excluirPorCpf(cpf)
 				.map(ClienteResource.map())
@@ -59,7 +67,7 @@ public class ClienteRestController {
 	}
 	
 	@RequestMapping(value = "/clientes/{id}", method = RequestMethod.GET)
-	public @ResponseBody ClienteResource buscarPorId(@PathVariable Integer id) {
+	public @ResponseBody ClienteResource buscarPorId(@NotNull @Size(min = 0) @PathVariable Integer id) {
 		return clienteService
 				.buscarPorId(id)
 				.map(ClienteResource.map())
@@ -67,7 +75,7 @@ public class ClienteRestController {
 	}
 
 	@RequestMapping(value = "/clientes/cpf/{cpf}", method = RequestMethod.GET)
-	public @ResponseBody ClienteResource buscarPorCpf(@PathVariable String cpf) {
+	public @ResponseBody ClienteResource buscarPorCpf(@NotNull @Size(min = 10) @PathVariable String cpf) {
 		return clienteService
 				.buscarPorCpf(cpf)
 				.map(ClienteResource.map())

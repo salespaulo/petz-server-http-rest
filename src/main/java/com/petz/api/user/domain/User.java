@@ -40,7 +40,7 @@ public class User {
 	private String password;
 
 	@Lob
-	@Column(nullable = true, name = "refresh_token", columnDefinition="TEXT")
+	@Column(nullable = true, name = "refresh_token")
 	private String refreshToken;
 
 	// bi-directional many-to-many association to Usergroup

@@ -10,5 +10,5 @@ ARG JAR_FILE
 ADD ${JAR_FILE} app.jar
 
 VOLUME /tmp
-EXPOSE 8000
+EXPOSE 8080
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Xmx512m","-Xss128m","-jar","app.jar"]

@@ -4,7 +4,7 @@ import com.petz.api.auth.token.TokenResource;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
-public class JwtTokenExpiredException extends JwtTokenAuthenticationException {
+public class JwtTokenExpiredException extends AuthJwtTokenException {
 
     private static final String JWT_TOKEN_EXPIRED = "JWT Token expired";
 

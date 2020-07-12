@@ -2,6 +2,8 @@ package com.petz.api.pet;
 
 import static com.petz.api.core.exception.Exceptions.supplierResourceNotFound;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.petz.api.cliente.ClienteService;
 import com.petz.api.pet.domain.Pet;
 import com.petz.api.pet.resource.PetResource;
 
@@ -21,28 +22,22 @@ import com.petz.api.pet.resource.PetResource;
 public class PetRestController {
 
 	public final PetService petService;
-	public final ClienteService clienteService;
 	
 	@Autowired
-	public PetRestController(final PetService petService, ClienteService clienteService) {
+	public PetRestController(final PetService petService) {
 		this.petService = petService;
-		this.clienteService = clienteService;
 	}
 
 	@RequestMapping(value = "/pets/{clienteId}", method = RequestMethod.POST)
-	public @ResponseBody PetResource criar(@PathVariable Integer clienteId, @RequestBody Pet pet) {
-		return clienteService.buscarPorId(clienteId)
-				.map(cliente -> {
-					cliente.getPets().add(pet);
-					clienteService.atualizar(cliente);
-					return pet;
-				})
+	public @ResponseBody PetResource criar(@PathVariable Integer clienteId, @Valid @RequestBody Pet pet) {
+		return petService.criar(clienteId, pet)
 				.map(PetResource.map())
 				.orElseThrow(supplierResourceNotFound("Cliente", clienteId));
 	}
 
-	@RequestMapping(value = "/pets", method = RequestMethod.PUT)
-	public @ResponseBody PetResource atualizar(@RequestBody Pet pet) {
+	@RequestMapping(value = "/pets/{id}", method = RequestMethod.PUT)
+	public @ResponseBody PetResource atualizar(@PathVariable Integer id, @Valid @RequestBody Pet pet) {
+		pet.setId(id);
 		return petService
 				.atualizar(pet)
 				.map(PetResource.map())

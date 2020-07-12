@@ -14,6 +14,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public final class ClienteResource {
 
+	private Integer id;
+
 	private String cpf;
 
 	private String logradouro;
@@ -23,7 +25,11 @@ public final class ClienteResource {
 	private Set<PetResource> pets;
 
 	public static final Function<Cliente, ClienteResource> map() {
-		return cliente -> new ClienteResource(cliente.getCpf(), cliente.getLogradouro(), cliente.getCep(),
+		return cliente -> new ClienteResource(
+				cliente.getId(),
+				cliente.getCpf(), 
+				cliente.getLogradouro(), 
+				cliente.getCep(),
 				cliente.getPets().stream().map(PetResource.map()).collect(Collectors.toSet()));
 	}
 

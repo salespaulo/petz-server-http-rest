@@ -11,6 +11,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public final class PetResource {
 
+	private Integer id;
+
 	private String nome;
 
 	private String especie;
@@ -20,7 +22,10 @@ public final class PetResource {
 	private String descricao;
 
 	public static final Function<Pet, PetResource> map() {
-		return pet -> new PetResource(pet.getNome(), pet.getEspecie().toString(), pet.getGenero().toString(),
+		return pet -> new PetResource(pet.getId(), 
+				pet.getNome(), 
+				pet.getEspecie().toString(), 
+				pet.getGenero().toString(),
 				pet.getDescricao());
 	}
 
