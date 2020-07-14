@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public final class LoginResource {
+public class LoginResource {
 
 	private TokenResource accessToken;
 	
