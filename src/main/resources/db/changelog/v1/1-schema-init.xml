@@ -1,0 +1,150 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<!-- Nestas entidades eu gostaria de trabalhar com chaves naturais, pois acredito ser
+	a melhor forma de representar a identidade de um elemento, mas por praticidade p/ realizar o teste
+	escolhi deixar o sequencial ID -->
+
+	<changeSet id="1-create-privilege" author="paulosales">
+		<createTable tableName="privilege">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="VARCHAR(100)">
+				<constraints unique="true" nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2-create-role" author="paulosales">
+		<createTable tableName="role">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="VARCHAR(100)">
+				<constraints unique="true" nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="3-create-role_priv" author="paulosales">
+		<createTable tableName="role_priv">
+			<column name="role_id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_priv_role_id" references="role(id)" />
+			</column>
+			<column name="privilege_id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_role_priv_id" references="privilege(id)" />
+			</column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="4-create-user" author="paulosales">
+		<createTable tableName="users">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="VARCHAR(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="username" type="VARCHAR(100)">
+				<constraints unique="true" nullable="false" />
+			</column>
+			<column name="password" type="VARCHAR(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="refresh_token" type="TEXT">
+				<constraints nullable="true" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="5-create-usergroup" author="paulosales">
+		<createTable tableName="usergroup">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="VARCHAR(100)">
+				<constraints unique="true" nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="6-create-user_usergrp" author="paulosales">
+		<createTable tableName="user_usergrp">
+			<column name="user_id" type="INT">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_usergrp_user_id" references="users(id)" />
+			</column>
+			<column name="usergrp_id" type="INT">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_user_usergrp_id" references="usergroup(id)" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="7-create-user_role" author="paulosales">
+		<createTable tableName="user_role">
+			<column name="user_id" type="INT">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_role_user_id" references="users(id)" />
+			</column>
+			<column name="role_id" type="INT">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_user_role_id" references="role(id)" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="8-create-usergrp_role" author="paulosales">
+		<createTable tableName="usergrp_role">
+			<column name="usergrp_id" type="INT">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_role_usergrp_id" references="usergroup(id)" />
+			</column>
+			<column name="role_id" type="INT">
+				<constraints primaryKey="true" nullable="false" foreignKeyName="fk_usergrp_role_id" references="role(id)" />
+			</column>
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="9-create-cliente" author="paulosales">
+		<createTable tableName="cliente">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="cpf" type="VARCHAR(100)">
+				<constraints unique="true" nullable="false" />
+			</column>
+			<column name="logradouro" type="VARCHAR(100)">
+				<constraints nullable="true" />
+			</column>
+			<column name="cep" type="VARCHAR(20)">
+				<constraints nullable="true" />
+			</column>
+			<column name="user_id" type="INT">
+				<constraints nullable="false" foreignKeyName="fk_cliente_user_id" references="users(id)" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="10-create-pet" author="paulosales">
+		<createTable tableName="pet">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="nome" type="VARCHAR(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="especie" type="VARCHAR(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="genero" type="VARCHAR(10)">
+				<constraints nullable="false" />
+			</column>
+			<column name="descricao" type="VARCHAR(100)">
+				<constraints nullable="true" />
+			</column>
+			<column name="cliente_id" type="INT">
+				<constraints nullable="false" foreignKeyName="fk_pet_cliente_id" references="cliente(id)" />
+			</column>
+		</createTable>
+	</changeSet>
+
+</databaseChangeLog> 
